@@ -3,9 +3,18 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "dev": "webpack-dev-server --inline --progress --config webpack/webpack.dev.js",
-    "build": "webpack --config webpack/webpack.prod.js",
-    "lint": "eslint --ext .js,.jsx src"
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --inline --progress --config webpack/webpack.dev.js",
+    "build": "cross-env NODE_ENV=production webpack --config webpack/webpack.prod.js",
+    "lint": "eslint --ext .js,.jsx src",
+    "deploy": "gh-pages -d public"
+  },
+  "author": {
+    "name": "kainstar",
+    "url": "https://github.com/kainstar"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kainstar/image-to-text.git"
   },
   "dependencies": {
     "classnames": "^2.2.5",
@@ -27,6 +36,7 @@
     "babel-preset-stage-2": "^6.24.1",
     "clean-webpack-plugin": "^0.1.19",
     "copy-webpack-plugin": "^4.5.1",
+    "cross-env": "^5.1.5",
     "css-loader": "^0.28.11",
     "eslint": "^4.19.1",
     "eslint-friendly-formatter": "^4.0.1",
