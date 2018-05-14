@@ -1,0 +1,90 @@
+.modal {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: none;
+}
+
+.modal.open {
+  display: block;
+}
+
+.modal-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.modal-box {
+  position: absolute;
+  left: 50%;
+  margin-top: 30px;
+  transform: translate(-50%, 0);
+  background-color: #fff;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 8);
+  border-radius: 15px;
+}
+
+.modal-close {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  color: rgba(0, 0, 0, 0.6);
+  text-decoration: none;
+}
+
+.modal-close:hover {
+  color: rgb(0,0,0);
+}
+
+.modal-header {
+  padding: 20px 0;
+}
+
+.modal-title {
+  font-size: 16px;
+  margin: 0 0 0 20px;
+}
+
+.output-options {
+  margin-right: 50px;
+  margin-top: -23px;
+  float: right;
+}
+
+.output-options > * {
+  float: left;
+  margin-right: 10px;
+}
+
+.play-delay-input {
+  width: 40px;
+  padding: 6px 10px;
+  border-radius: 3px;
+  border: 1px solid #999;
+  outline: none;
+}
+
+.save-btn {
+}
+
+.output-text-wrapper {
+  padding: 20px;
+}
+
+.output-text-block {
+  max-height: calc(100vh - 150px);
+  max-width: 90vw;
+  font-size: 12px;
+  line-height: 12px;
+  border: 1px solid #000;
+  overflow: auto;
+}
+
+.output-text-block pre {
+  margin: 0;
+  padding: 0;
+}

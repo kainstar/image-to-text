@@ -1,0 +1,42 @@
+.upload-image-block {
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+  margin: 20px auto 0;
+  border: 2px dashed rgba(127, 150, 255, 0.5);
+}
+
+.upload-image-block:hover, .upload-image-block.active {
+  cursor: pointer;
+  border: 2px dashed rgba(127, 150, 255, 1);
+}
+
+.upload-label {
+  width: 100%;
+  margin-top: 30px;
+  font-size: 25px;
+  color: rgba(127, 150, 255, 0.5);
+  display: block;
+  text-align: center;
+  cursor: pointer;
+}
+
+.upload-image-block:hover .upload-label, .upload-image-block.active .upload-label {
+  color: rgba(127, 150, 255, 1);
+}
+
+.file-upload-input {
+  display: none;
+}
+
+.preview-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.preview-image[src=""] {
+  visibility: hidden;
+}

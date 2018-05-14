@@ -1,0 +1,86 @@
+body {
+  margin: 0;
+  padding: 0 20px;
+}
+
+::-webkit-scrollbar {
+  background-color: #f0f0f0;
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #F90;
+  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .2) 50%, rgba(255, 255, 255, .2) 75%, transparent 75%, transparent);
+}
+
+::-webkit-scrollbar-track {
+  background-color: #f0f0f0;
+  box-shadow: 0 0 6px inset rgba(0,0,0,0.3)
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
+.text-center {
+  text-align: center
+}
+
+.btn {
+  outline: none;
+  border-radius: 5px;
+  padding: 5px 15px;
+  color: #333;
+  border: 1px solid #333;
+  background: #fff;
+  transition: all 0.1s ease 0s;
+}
+
+.btn:hover {
+  color: #333;
+  border: 1px solid #000;
+  background: #fff;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+}
+
+.btn:active {
+  color: #fff;
+  background: #000;
+  border: 1px solid #000;
+}
+
+.divide {
+  display: block;
+  height: 0px;
+  border-bottom: 1px solid #666;
+}
+
+.transform-size-input {
+  width: 100px;
+}
+
+.transform-settings-wrapper {
+  margin: 20px auto;
+  max-width: 600px;
+  justify-content: space-between;
+}
+
+@media screen and (max-width: 675px) {
+  .transform-settings-wrapper {
+    flex-direction: column;
+    margin: 0.5rem 1rem;
+  }
+  .transform-settings-wrapper > * {
+    margin: 0.5rem 0;
+  }
+}
