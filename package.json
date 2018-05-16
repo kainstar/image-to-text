@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "dev": "cross-env NODE_ENV=development webpack-dev-server --inline --progress --config webpack/webpack.dev.js",
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --inline --progress --color --config webpack/webpack.dev.js",
     "build": "cross-env NODE_ENV=production webpack --config webpack/webpack.prod.js",
     "lint": "eslint --ext .js,.jsx src",
     "deploy": "gh-pages -d public"
@@ -18,10 +18,9 @@
   },
   "dependencies": {
     "classnames": "^2.2.5",
-    "get-pixels": "^3.3.0",
     "gif.js": "^0.2.0",
-    "html2canvas": "^1.0.0-alpha.12",
-    "prop-types": "^15.6.1",
+    "omggif": "^1.0.9",
+    "parse-data-uri": "^0.2.0",
     "react": "^16.3.2",
     "react-dom": "^16.3.2"
   },

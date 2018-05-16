@@ -28,20 +28,8 @@
   border-radius: 15px;
 }
 
-.modal-close {
-  position: absolute;
-  right: 10px;
-  top: 10px;
-  color: rgba(0, 0, 0, 0.6);
-  text-decoration: none;
-}
-
-.modal-close:hover {
-  color: rgb(0,0,0);
-}
-
 .modal-header {
-  padding: 20px 0;
+  padding: 15px 0;
 }
 
 .modal-title {
@@ -49,26 +37,39 @@
   margin: 0 0 0 20px;
 }
 
+.modal-close {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  color: rgba(0, 0, 0, 0.6);
+  text-decoration: none;
+}
+
+.modal-close:hover {
+  color: rgb(0, 0, 0);
+}
+
 .output-options {
-  margin-right: 50px;
-  margin-top: -23px;
-  float: right;
+  overflow: hidden;
+  padding: 10px 20px;
 }
 
 .output-options > * {
-  float: left;
   margin-right: 10px;
 }
 
 .play-delay-input {
   width: 40px;
   padding: 6px 10px;
+  margin-right: 10px;
   border-radius: 3px;
   border: 1px solid #999;
   outline: none;
 }
 
 .save-btn {
+  float: right;
+  margin-right: 0;
 }
 
 .output-text-wrapper {
@@ -76,7 +77,7 @@
 }
 
 .output-text-block {
-  max-height: calc(100vh - 150px);
+  max-height: calc(100vh - 200px);
   max-width: 90vw;
   font-size: 12px;
   line-height: 12px;

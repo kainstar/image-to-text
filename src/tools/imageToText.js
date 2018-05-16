@@ -18,7 +18,7 @@ const DEFAULT_AVAILABLE_TEXTS = '@#&$%O!~;*^+-. '
  * @param {string | Array<string>} texts
  * @returns
  */
-function createGrayToTextFunc(texts = DEFAULT_AVAILABLE_TEXTS) {
+export function createGrayToTextFunc(texts = DEFAULT_AVAILABLE_TEXTS) {
   /**
    * 灰度转字符函数
    *
@@ -40,7 +40,7 @@ function createGrayToTextFunc(texts = DEFAULT_AVAILABLE_TEXTS) {
  * @param {Function} [grayToText=defaultGrayToText]
  * @returns
  */
-function transformImageFrame(imageData, grayToText = createGrayToTextFunc()) {
+export function transformImageFrame(imageData, grayToText = createGrayToTextFunc()) {
   const dataArr = imageData.data
   const width = imageData.width
   const height = imageData.height
@@ -55,9 +55,4 @@ function transformImageFrame(imageData, grayToText = createGrayToTextFunc()) {
     lines.push(line)
   }
   return lines
-}
-
-module.exports = {
-  createGrayToTextFunc,
-  transformImageFrame
 }

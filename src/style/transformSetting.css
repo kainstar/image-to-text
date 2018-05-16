@@ -4,13 +4,15 @@
   margin: 5px 0;
 }
 
-.transform-setting select, .transform-setting input {
+.transform-setting select,
+.transform-setting input {
   padding: 6px 10px;
   border-radius: 3px;
   border: 1px solid #999;
   outline: none;
 }
 
-.transform-setting select:focus, .transform-setting input:focus {
+.transform-setting select:focus,
+.transform-setting input:focus {
   border: 1px solid #000;
 }

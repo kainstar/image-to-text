@@ -9,7 +9,11 @@ import classNames from 'classnames'
  * @returns
  */
 export default function Button(props) {
-  let {children, className, ...attrs} = props
+  let { children, className, ...attrs } = props
   className = classNames(className, 'btn')
-  return <button {...attrs} type="button" className={className}>{children}</button>
+  return (
+    <button {...attrs} type="button" className={className}>
+      {children}
+    </button>
+  )
 }

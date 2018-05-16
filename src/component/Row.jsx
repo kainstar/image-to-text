@@ -9,7 +9,11 @@ import classNames from 'classnames'
  * @returns
  */
 export default function Row(props) {
-  let {children, className, ...attrs} = props
+  let { children, className, ...attrs } = props
   className = classNames(className, 'row')
-  return <div {...attrs} className={className}>{children}</div>
+  return (
+    <div {...attrs} className={className}>
+      {children}
+    </div>
+  )
 }

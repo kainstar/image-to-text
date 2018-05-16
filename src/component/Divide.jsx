@@ -7,5 +7,5 @@ import React from 'react'
  * @returns
  */
 export default function Divide() {
-  return <div className="divide"></div>
+  return <div className="divide" />
 }

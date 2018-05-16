@@ -1,30 +1,31 @@
 import React from 'react'
 import classNames from 'classnames'
-import PropTypes from 'prop-types'
+import { checkImageType } from '../tools/imageCommon'
 import '../style/imagePreviewUpload.css'
-import { execFunction } from '../tools/execFunction'
-
+/**
+ * 图片上传预览组件
+ *
+ * @export
+ * @class ImagePreviewUpload
+ * @extends {React.Component}
+ */
 export default class ImagePreviewUpload extends React.Component {
 
-  static propTypes = {
-    onDragEnter: PropTypes.func,
-    onDragOver: PropTypes.func,
-    onDragLeave: PropTypes.func,
-    onDrop: PropTypes.func,
-    previewWidth: PropTypes.number
-  }
-
-  constructor() {
-    super()
+  /**
+   * Creates an instance of ImagePreviewUpload.
+   *
+   * @param {object} props
+   * @param {HTMLImageElement} props.image
+   * @param {File} props.file
+   * @param {number} props.previewWidth
+   * @param {Function} props.setImageAndFile
+   *
+   * @memberof ImagePreviewUpload
+   */
+  constructor(props) {
+    super(props)
     this.state = {
-      /**
-       * @type {File}
-       */
-      file: null,
-      /**
-       * @type {HTMLImageElement}
-       */
-      image: null,
+      isDragging: false,
       width: 400,
       height: 250
     }
@@ -33,36 +34,56 @@ export default class ImagePreviewUpload extends React.Component {
      * @type {React.RefObject<HTMLInputElement>}
      */
     this.fileUpload = React.createRef()
+    this.currentImageRef = React.createRef()
   }
 
-  getFile() {
-    return this.state.file
+  getCurrentImage() {
+    return this.currentImageRef.current
   }
 
-  getImage() {
-    return this.state.image
+  size = () => {
+    return {
+      width: this.state.width,
+      height: this.state.height
+    }
   }
 
-  dragEnter = (ev) => {
+  dragEnter = ev => {
     ev.preventDefault()
-    execFunction(this.props.onDragEnter, ev)
+    this.setState({
+      isDragging: true
+    })
   }
 
-  dragOver = (ev) => {
+  dragOver = ev => {
     ev.preventDefault()
-    execFunction(this.props.onDragOver, ev)
   }
 
-  dragLeave = (ev) => {
+  dragLeave = ev => {
     ev.preventDefault()
-    execFunction(this.props.onDragLeave, ev)
+    this.setState({
+      isDragging: false
+    })
   }
 
-  drop = (ev) => {
+  drop = ev => {
     ev.preventDefault()
-    execFunction(this.props.onDrop, ev)
+    this.setState({
+      isDragging: false
+    })
     const file = ev.dataTransfer.files[0]
     this.previewImage(file)
+  }
+
+  openFileInput = () => {
+    this.fileUpload.current.click()
+  }
+
+  setFile = ev => {
+    const file = ev.target.files[0]
+    if (file) {
+      this.previewImage(file)
+    }
   }
 
   /**
@@ -72,8 +93,8 @@ export default class ImagePreviewUpload extends React.Component {
    * @memberof ImagePreviewUpload
    */
   previewImage(file) {
-    if (!file.type.match(/image\/.*/)) {
-      alert('请选择图片文件')
+    if (!checkImageType(file.type)) {
+      alert('不支持该格式的文件')
       return
     }
     const reader = new FileReader()
@@ -82,10 +103,7 @@ export default class ImagePreviewUpload extends React.Component {
       const image = new Image()
       image.addEventListener('load', () => {
         this.scaleImageContainer(image)
-        this.setState({
-          file: file,
-          image: image
-        })
+        this.props.setImageAndFile(image, file)
       })
       image.src = reader.result
     })
@@ -98,8 +116,8 @@ export default class ImagePreviewUpload extends React.Component {
    */
   scaleImageContainer(image) {
     if (!image) {
-      // 不传递image时，使用当前的image（App组件调用）
-      image = this.state.image
+      // 不传递image时，使用当前的image（App组件传递）
+      image = this.props.image
     }
     let targetWidth = this.props.previewWidth
     if (!targetWidth) {
@@ -118,26 +136,21 @@ export default class ImagePreviewUpload extends React.Component {
     })
   }
 
-  openFileInput = () => {
-    this.fileUpload.current.click()
-  }
-
-  setFile = (ev) => {
-    const file = ev.target.files[0]
-    if (file) {
-      this.previewImage(file)
-    }
-  }
-
   render() {
-    const uploadBlockClasses = classNames('upload-image-block', this.props.className)
+    const uploadBlockClasses = classNames('upload-image-block', {active: this.state.isDragging}, this.props.className)
     return (
-      <div onDragEnter={this.dragEnter} onDragOver={this.dragOver} onDragLeave={this.dragLeave} onDrop={this.drop} onClick={this.openFileInput} className={uploadBlockClasses} style={{width: this.state.width, height: this.state.height}}>
-        <input type="file" style={{display: 'none'}} accept="image/*" ref={this.fileUpload} onChange={this.setFile} />
+      <div
+        onDragEnter={this.dragEnter}
+        onDragOver={this.dragOver}
+        onDragLeave={this.dragLeave}
+        onDrop={this.drop}
+        onClick={this.openFileInput}
+        className={uploadBlockClasses}
+        style={{ width: this.state.width, height: this.state.height }}
+      >
+        <input type="file" style={{ display: 'none' }} accept="image/*" ref={this.fileUpload} onChange={this.setFile} />
         <span className="upload-label">上传图片</span>
-        {
-          this.state.image ? <img src={this.state.image.src} className="preview-image" /> : null
-        }
+        {this.props.image ? <img ref={this.currentImageRef} src={this.props.image.src} className="preview-image" /> : null}
       </div>
     )
   }

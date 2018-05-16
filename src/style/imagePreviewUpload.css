@@ -6,7 +6,8 @@
   border: 2px dashed rgba(127, 150, 255, 0.5);
 }
 
-.upload-image-block:hover, .upload-image-block.active {
+.upload-image-block:hover,
+.upload-image-block.active {
   cursor: pointer;
   border: 2px dashed rgba(127, 150, 255, 1);
 }
@@ -21,7 +22,8 @@
   cursor: pointer;
 }
 
-.upload-image-block:hover .upload-label, .upload-image-block.active .upload-label {
+.upload-image-block:hover .upload-label,
+.upload-image-block.active .upload-label {
   color: rgba(127, 150, 255, 1);
 }
 
@@ -37,6 +39,6 @@
   height: 100%;
 }
 
-.preview-image[src=""] {
+.preview-image[src=''] {
   visibility: hidden;
 }

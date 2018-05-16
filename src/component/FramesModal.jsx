@@ -1,20 +1,32 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import Button from './Button'
 import Divide from './Divide'
+import { createImage } from '../tools/imageCreater'
 import '../style/modal.css'
 
 const DEFAULT_PLAY_DELAY = 200
 
-export default class ResultModal extends React.PureComponent {
+/**
+ * 显示图片转字符结果的模态框
+ *
+ * @export
+ * @class FramesModal
+ * @extends {React.PureComponent}
+ */
+export default class FramesModal extends React.PureComponent {
 
-  static propTypes = {
-    result: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string))
-  }
-
-  constructor() {
-    super()
+  /**
+   * Creates an instance of FramesModal.
+   *
+   * @param {object} props
+   * @param {string[][]} props.frames
+   * @param {File} props.file
+   *
+   * @memberof FramesModal
+   */
+  constructor(props) {
+    super(props)
     this.state = {
       open: false,
       playingIndex: 0,
@@ -22,11 +34,21 @@ export default class ResultModal extends React.PureComponent {
     }
     this.playTimer = null
     this.playDelayInput = React.createRef()
+    this.outputRef = React.createRef()
   }
 
   componentWillUnmount() {
     // 组件销毁时，取消定时器
     this.stop()
+  }
+
+  /**
+   * 保存图片为文件
+   *
+   * @memberof FramesModal
+   */
+  savePic = () => {
+    createImage(this.outputRef.current, this.props.frames, this.props.file)
   }
 
   updatePlayDelay = () => {
@@ -44,13 +66,13 @@ export default class ResultModal extends React.PureComponent {
   }
 
   play() {
-    if (this.props.result.length <= 1) {
+    if (this.props.frames.length <= 1) {
       return
     }
     const nextFrame = () => {
       this.playTimer = setTimeout(() => {
         let nextIndex = this.state.playingIndex + 1
-        if (nextIndex === this.props.result.length) {
+        if (nextIndex === this.props.frames.length) {
           nextIndex = 0
         }
         this.setState({
@@ -68,7 +90,7 @@ export default class ResultModal extends React.PureComponent {
     }
   }
 
-  close = (ev) => {
+  close = ev => {
     ev.preventDefault()
     this.stop()
     this.setState({
@@ -90,26 +112,40 @@ export default class ResultModal extends React.PureComponent {
     })
     return (
       <div className={modalClasses}>
-        <div className="modal-overlay"></div>
+        <div className="modal-overlay" />
         <div className="modal-box">
           <div className="modal-header">
             <a href="#" className="modal-close" onClick={this.close}>X</a>
             <h3 className="modal-title">图片转化结果</h3>
-            <div className="output-options">
-              <input defaultValue={DEFAULT_PLAY_DELAY} className="play-delay-input" ref={this.playDelayInput} placeholder="播放帧间隔(ms)" />
-              <Button className="update-btn" onClick={this.updatePlayDelay}>更新间隔时间(ms)</Button>
-              <Button className="save-btn" disabled>保存为图片</Button>
-            </div>
           </div>
-          <Divide/>
+          <Divide />
+          <div className="output-options">
+            {this.props.file && this.props.file.type === 'image/gif' ?
+              <span>
+                <input
+                  defaultValue={DEFAULT_PLAY_DELAY}
+                  className="play-delay-input"
+                  ref={this.playDelayInput}
+                  placeholder="播放帧间隔(ms)" />
+                <Button className="update-btn" onClick={this.updatePlayDelay}>
+                  更新间隔时间(ms)
+                </Button>
+              </span>: null
+            }
+            <Button className="save-btn" onClick={this.savePic}>
+              保存为图片
+            </Button>
+          </div>
+          <Divide />
           <div className="output-text-wrapper">
-            <div className="output-text-block">
-              {this.props.result.length ? this.props.result[this.state.playingIndex].map((line, index) => <pre key={index}>{line}</pre>) : null}
+            <div id="output-text-block" className="output-text-block" ref={this.outputRef}>
+              {this.props.frames.length
+                ? this.props.frames[this.state.playingIndex].map((line, index) => <pre key={index}>{line}</pre>)
+                : null}
             </div>
           </div>
         </div>
       </div>
     )
   }
-
 }

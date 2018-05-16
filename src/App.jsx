@@ -1,28 +1,28 @@
 import React from 'react'
 import Divide from './component/Divide'
 import Button from './component/Button'
-import ResultModal from './component/ResultModal'
+import FramesModal from './component/FramesModal'
 import TransformSetting from './component/TransformSetting'
 import Row from './component/Row'
 import ImagePreviewUpload from './component/ImagePreviewUpload'
-import imageToText from './tools/imageToText'
-import imageParser from './tools/imageParser'
-
-const TRANSFORM_TYPES = {
-  BORWSER: 'browser',
-  SERVER: 'server',
-}
+import { transformImageFrame } from './tools/imageToText'
+import { getImageDatas } from './tools/imageParser'
 
 export default class App extends React.Component {
   constructor() {
     super()
     this.state = {
-      transformType: 'browser',
       transformWidth: '',
-      transformResult: []
+      transformResult: [],
+      rawImage: null,
+      file: null
     }
     this.imagePreview = React.createRef()
-    this.resultModal = React.createRef()
+    this.framesModal = React.createRef()
+  }
+
+  setImageAndFile = (rawImage, file) => {
+    this.setState({rawImage, file})
   }
 
   setTransformType = (ev) => {
@@ -49,48 +49,26 @@ export default class App extends React.Component {
     this.imagePreview.current.scaleImageContainer()
   }
 
-  transform = () => {
-    switch (this.state.transformType) {
-      case TRANSFORM_TYPES.BORWSER:
-        this.transformByCanvas()
-        break
-      case TRANSFORM_TYPES.SERVER:
-        this.transformByServer()
-        break
-      default:
-        break
-    }
-  }
-
   /**
-   * 用Canvas来实现图片转字符
+   * 图片转字符
    *
    * @memberof App
    */
-  async transformByCanvas() {
+  transform = () => {
     /**
      * @type {HTMLImageElement}
      */
-    const image = this.imagePreview.current.getImage()
-    const file = this.imagePreview.current.getFile()
-    const imageDatas = await imageParser(image, file)
+    const image = this.imagePreview.current.getCurrentImage()
+    const file = this.state.file
+    const imageDatas = getImageDatas(image, file)
     const frames = imageDatas.map(imageData => {
-      return imageToText.transformImageFrame(imageData)
+      return transformImageFrame(imageData)
     })
     this.setState({
       transformResult: frames
     }, () => {
-      this.resultModal.current.open()
+      this.framesModal.current.open()
     })
-  }
-
-  /**
-   * 由服务器来实现图片转字符
-   *
-   * @memberof App
-   */
-  transformByServer() {
-    console.log('transformByServer')
   }
 
   render() {
@@ -101,23 +79,20 @@ export default class App extends React.Component {
         </header>
         <Divide/>
         <Row className="transform-settings-wrapper">
-          <TransformSetting label="转化方式:" labelFor="transform-type">
-            <select name="transform-type" id="transform-type" onChange={this.setTransformType} value={this.state.transformType}>
-              <option value={TRANSFORM_TYPES.BORWSER}>浏览器</option>
-              <option value={TRANSFORM_TYPES.SERVER}>服务器</option>
-            </select>
-          </TransformSetting>
           <TransformSetting label="目标图片宽度:" labelFor="transform-size">
             <input type="number" id="transform-size" className="transform-size-input" name="transform-size" value={this.state.transformWidth} onChange={this.setTransformWidth} />
           </TransformSetting>
+          {/* <TransformSetting label="是否着色:" labelFor="transform-color">
+            <input type="checkbox" id="transform-color" className="transform-color-checkbox" name="transform-color" value={this.state.transformColor} onChange={this.setTransformColor} />
+          </TransformSetting> */}
           <Button onClick={this.rescale}>重新缩放</Button>
           <Button onClick={this.transform}>开始转化</Button>
         </Row>
         <Divide/>
         <Row>
-          <ImagePreviewUpload previewWidth={parseInt(this.state.transformWidth)} ref={this.imagePreview}></ImagePreviewUpload>
+          <ImagePreviewUpload file={this.state.file} image={this.state.rawImage} setImageAndFile={this.setImageAndFile} previewWidth={parseInt(this.state.transformWidth)} ref={this.imagePreview}></ImagePreviewUpload>
         </Row>
-        <ResultModal ref={this.resultModal} result={this.state.transformResult} />
+        <FramesModal ref={this.framesModal} frames={this.state.transformResult} file={this.state.file} />
       </div>
     )
   }

@@ -22,7 +22,8 @@
     "no-var": "error"
   },
   "globals": {
-    "Promise": true
+    "Promise": true,
+    "Uint8Array": true
   },
   "env": {
     "node": true,
