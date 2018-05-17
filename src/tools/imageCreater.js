@@ -48,11 +48,12 @@ function gif(div, frames, props, cb) {
   const height = div.scrollHeight
   const gif = new GIF({
     quality: 10,
+    workers: 2,
+    workerScript: './js/gif.worker.js',
     width, height
   })
   gif.on('finished', function (blob) {
-    console.log(cb)
-    cb && cb(blob)
+    cb(blob)
   })
   for (let i = 0; i < frames.length; i++) {
     const canvas = getFrameCanvas(div, frames[i], props)
