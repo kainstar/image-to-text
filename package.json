@@ -6,7 +6,7 @@
     "dev": "cross-env NODE_ENV=development webpack-dev-server --inline --progress --color --config webpack/webpack.dev.js",
     "build": "cross-env NODE_ENV=production webpack --config webpack/webpack.prod.js",
     "lint": "eslint --ext .js,.jsx src",
-    "deploy": "gh-pages -d public"
+    "deploy": "npm run build && gh-pages -d public"
   },
   "author": {
     "name": "kainstar",
