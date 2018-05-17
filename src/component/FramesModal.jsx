@@ -29,7 +29,7 @@ export default class FramesModal extends React.PureComponent {
     super(props)
     this.state = {
       open: false,
-      playingIndex: 0,
+      frameIndex: 0,
       playDelay: DEFAULT_PLAY_DELAY
     }
     this.playTimer = null
@@ -40,6 +40,16 @@ export default class FramesModal extends React.PureComponent {
   componentWillUnmount() {
     // 组件销毁时，取消定时器
     this.stop()
+  }
+
+  static getDerivedStateFromProps(nextProps) {
+    if (nextProps.file) {
+      // 更换文件时，将播放帧序号重置回0
+      return {
+        frameIndex: 0
+      }
+    }
+    return null
   }
 
   /**
@@ -71,12 +81,12 @@ export default class FramesModal extends React.PureComponent {
     }
     const nextFrame = () => {
       this.playTimer = setTimeout(() => {
-        let nextIndex = this.state.playingIndex + 1
+        let nextIndex = this.state.frameIndex + 1
         if (nextIndex === this.props.frames.length) {
           nextIndex = 0
         }
         this.setState({
-          playingIndex: nextIndex
+          frameIndex: nextIndex
         })
         nextFrame()
       }, this.state.playDelay)
@@ -140,7 +150,7 @@ export default class FramesModal extends React.PureComponent {
           <div className="output-text-wrapper">
             <div id="output-text-block" className="output-text-block" ref={this.outputRef}>
               {this.props.frames.length
-                ? this.props.frames[this.state.playingIndex].map((line, index) => <pre key={index}>{line}</pre>)
+                ? this.props.frames[this.state.frameIndex].map((line, index) => <pre key={index}>{line}</pre>)
                 : null}
             </div>
           </div>
