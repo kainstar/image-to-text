@@ -5,7 +5,7 @@ import Divide from './Divide'
 import { createImage } from '../tools/imageCreater'
 import '../style/modal.css'
 
-const DEFAULT_PLAY_DELAY = 200
+const DEFAULT_PLAY_DELAY = 300
 
 /**
  * 显示图片转字符结果的模态框
@@ -58,7 +58,13 @@ export default class FramesModal extends React.PureComponent {
    * @memberof FramesModal
    */
   savePic = () => {
-    createImage(this.outputRef.current, this.props.frames, this.props.file)
+    const createOption = {
+      div: this.outputRef.current,
+      frames: this.props.frames,
+      file: this.props.file,
+      delay: this.state.playDelay
+    }
+    createImage(createOption)
   }
 
   updatePlayDelay = () => {

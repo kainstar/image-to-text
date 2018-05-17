@@ -9,6 +9,9 @@ import { getImageType } from './imageCommon'
  * @param {HTMLImageElement} image
  */
 function zipFrameData(frameData, image) {
+  // 方法来源：
+  // https://stackoverflow.com/questions/3448347/how-to-scale-an-imagedata-in-html-canvas
+
   // 存放一帧原图像到canvas中
   const nartualCanvas = document.createElement('canvas')
   const nartualCtx = nartualCanvas.getContext('2d')
@@ -67,8 +70,6 @@ function noGif(image) {
   ctx.scale(ratio, ratio)
   // 绘制当前图像到canvas上
   ctx.drawImage(image, 0, 0)
-  // 获取图像信息(宽高与当前图像相同)
-  document.body.appendChild(canvas)
   const imageData = ctx.getImageData(0, 0, image.width, image.height)
   return [imageData]
 }
@@ -84,13 +85,9 @@ function noGif(image) {
  */
 export function getImageDatas(image, file) {
   const type = getImageType(file.type)
-  switch (type.toUpperCase()) {
-    case 'GIF':
-      return gif(image)
-    case 'PNG':
-    case 'JPG':
-      return noGif(image)
-    default:
-      return null
+  if (type === 'GIF') {
+    return gif(image)
+  } else {
+    return noGif(image)
   }
 }
