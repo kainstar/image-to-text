@@ -2,7 +2,7 @@
   position: relative;
   overflow: hidden;
   border-radius: 20px;
-  margin: 20px auto 0;
+  margin: 20px auto;
   border: 2px dashed rgba(127, 150, 255, 0.5);
 }
 

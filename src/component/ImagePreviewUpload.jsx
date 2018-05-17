@@ -35,6 +35,7 @@ export default class ImagePreviewUpload extends React.Component {
      */
     this.fileUpload = React.createRef()
     this.currentImageRef = React.createRef()
+    this.componentRef = React.createRef()
   }
 
   getCurrentImage() {
@@ -119,15 +120,22 @@ export default class ImagePreviewUpload extends React.Component {
       // 不传递image时，使用当前的image（App组件传递）
       image = this.props.image
     }
+    const container = this.componentRef.current.parentElement
     let targetWidth = this.props.previewWidth
+
+    // 缩放宽度检测
     if (!targetWidth) {
-      // 没有指定宽度, 使用容器宽度
-      targetWidth = window.innerWidth
+      // 没有指定宽度(或为0), 使用容器宽度
+      targetWidth = container.clientWidth
       // 容器宽度比图片原宽度大，使用图片原宽度
       if (image.width < targetWidth) {
         targetWidth = image.width
       }
+    } else if (targetWidth > container.clientWidth) {
+      alert('超过容器大小！请重新输入图片宽度')
+      return
     }
+
     const ratio = image.width / targetWidth
     const targetHeight = image.height / ratio
     this.setState({
@@ -147,6 +155,7 @@ export default class ImagePreviewUpload extends React.Component {
         onClick={this.openFileInput}
         className={uploadBlockClasses}
         style={{ width: this.state.width, height: this.state.height }}
+        ref={this.componentRef}
       >
         <input type="file" style={{ display: 'none' }} accept="image/*" ref={this.fileUpload} onChange={this.setFile} />
         <span className="upload-label">上传图片</span>
