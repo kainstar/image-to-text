@@ -1,5 +1,4 @@
 import GIF from 'gif.js'
-// import { GifWriter } from 'omggif'
 import { getImageType } from './imageCommon'
 
 const TEXT_LINE_HEIGHT = 12
@@ -62,6 +61,7 @@ function gif(div, frames, props, cb) {
     })
   }
   gif.render()
+  console.log(gif)
 }
 
 const DEFAULT_NOGIF_PROPS = {
@@ -95,14 +95,17 @@ function noGif(div, frame, props) {
 export function createImage(option) {
   const { div, frames, file, ...props } = option
   const type = getImageType(file.type)
+
   const link = document.createElement('a')
   let filename = file.name.split('.')
   filename[filename.length - 2] = filename[filename.length - 2] + '-text'
   filename = filename.join('.')
   link.download = filename
+
   if (type === 'GIF') {
     gif(div, frames, props, function (blob) {
       const url = URL.createObjectURL(blob)
+      console.log(url)
       link.href = url
       link.click()
       URL.revokeObjectURL(url)

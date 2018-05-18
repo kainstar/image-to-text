@@ -1,5 +1,5 @@
 import { GifReader } from 'omggif'
-import parseDataUri from 'parse-data-uri'
+import * as datauri from './datauri'
 import { getImageType } from './imageCommon'
 
 /**
@@ -39,7 +39,7 @@ function zipFrameData(frameData, image) {
  * @returns
  */
 function gif(image) {
-  const { data } = parseDataUri(image.src)
+  const data = datauri.decode(image.src)
   const gifReader = new GifReader(data)
   const framesNum = gifReader.numFrames()
   const { width: rawWidth, height: rawHeight } = gifReader

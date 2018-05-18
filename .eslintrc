@@ -21,13 +21,9 @@
     "react/prop-types": 0,
     "no-var": "error"
   },
-  "globals": {
-    "Promise": true,
-    "Uint8Array": true,
-    "Uint8ClampedArray": true
-  },
   "env": {
     "node": true,
+    "es6": true,
     "browser": true
   }
 }
