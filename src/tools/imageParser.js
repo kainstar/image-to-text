@@ -1,4 +1,4 @@
-import { GifReader } from 'omggif'
+import gifParser from './gifParser'
 import * as datauri from './datauri'
 import { getImageType } from './imageCommon'
 
@@ -40,18 +40,13 @@ function zipFrameData(frameData, image) {
  */
 function gif(image) {
   const data = datauri.decode(image.src)
-  const gifReader = new GifReader(data)
-  const framesNum = gifReader.numFrames()
-  const { width: rawWidth, height: rawHeight } = gifReader
-  const GIF_COLOR_DEPTH = 4
-  const frames = []
-  for(let i = 0; i < framesNum; i++) {
-    const framePixels = new Uint8ClampedArray(rawWidth * rawHeight * GIF_COLOR_DEPTH)
-    gifReader.decodeAndBlitFrameRGBA(i, framePixels)
-    const frameData = new ImageData(framePixels, rawWidth, rawHeight)
-    frames.push(zipFrameData(frameData, image))
+  const { width: rawWidth, height: rawHeight, frames } = gifParser(data)
+  const framesData = []
+  for(let i = 0; i < frames.length; i++) {
+    const frameData = new ImageData(frames[i].data, rawWidth, rawHeight)
+    framesData.push(zipFrameData(frameData, image))
   }
-  return frames
+  return framesData
 }
 
 /**

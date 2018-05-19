@@ -19,7 +19,6 @@
   "dependencies": {
     "classnames": "^2.2.5",
     "gif.js": "^0.2.0",
-    "omggif": "^1.0.9",
     "react": "^16.3.2",
     "react-dom": "^16.3.2"
   },
