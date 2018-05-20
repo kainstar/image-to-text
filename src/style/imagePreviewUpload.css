@@ -2,7 +2,7 @@
   position: relative;
   overflow: hidden;
   border-radius: 20px;
-  margin: 20px auto;
+  margin: 40px auto 20px;
   border: 2px dashed rgba(127, 150, 255, 0.5);
 }
 
@@ -10,6 +10,7 @@
 .upload-image-block.active {
   cursor: pointer;
   border: 2px dashed rgba(127, 150, 255, 1);
+  box-shadow: 2px 2px 10px rgba(0,0,0, 0.4);
 }
 
 .upload-label {

@@ -5,8 +5,9 @@ import FramesModal from './component/FramesModal'
 import TransformSetting from './component/TransformSetting'
 import Row from './component/Row'
 import ImagePreviewUpload from './component/ImagePreviewUpload'
-import { transformImageToText } from './tools/imageToText'
+import { transformImageToText, createGrayToTextFunc } from './tools/imageToText'
 import { getImageDatas } from './tools/imageParser'
+import { DEFAULT_AVAILABLE_TEXTS } from './tools/constant'
 
 export default class App extends React.Component {
   constructor() {
@@ -14,6 +15,7 @@ export default class App extends React.Component {
     this.state = {
       transformWidth: '',
       transformResult: [],
+      transformPlaceholder: DEFAULT_AVAILABLE_TEXTS,
       rawImage: null,
       file: null
     }
@@ -28,6 +30,12 @@ export default class App extends React.Component {
   setTransformType = (ev) => {
     this.setState({
       transformType: ev.target.value
+    })
+  }
+
+  setTransformPlaceholder = (ev) => {
+    this.setState({
+      transformPlaceholder: ev.target.value
     })
   }
 
@@ -59,13 +67,16 @@ export default class App extends React.Component {
     if (!file) {
       return
     }
+    this.setState({
+      isParsing: true
+    })
     /**
      * @type {HTMLImageElement}
      */
     const image = this.imagePreview.current.getCurrentImage()
     const framesData = getImageDatas(image, file)
     framesData.forEach(frameData => {
-      frameData.text = transformImageToText(frameData.data)
+      frameData.text = transformImageToText(frameData.data, createGrayToTextFunc(this.state.transformPlaceholder))
     })
     this.setState({
       transformResult: framesData
@@ -77,18 +88,21 @@ export default class App extends React.Component {
   render() {
     return (
       <div>
-        <header>
+        <header className="clear">
           <h1 className="text-center">图片转字符画工具</h1>
         </header>
+        <a target="_blank" rel="noopener noreferrer" href="https://github.com/kainstar/image-to-text">
+          <img style={{position: 'absolute', top: 0, right: 0, border: 0}} src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png" alt="Fork me on GitHub"/>
+        </a>
         <Divide/>
         <Row className="transform-settings-wrapper">
           <TransformSetting label="目标图片宽度:" labelFor="transform-size">
             <input type="number" id="transform-size" className="transform-size-input" name="transform-size" value={this.state.transformWidth} onChange={this.setTransformWidth} />
           </TransformSetting>
-          {/* <TransformSetting label="是否着色:" labelFor="transform-color">
-            <input type="checkbox" id="transform-color" className="transform-color-checkbox" name="transform-color" value={this.state.transformColor} onChange={this.setTransformColor} />
-          </TransformSetting> */}
           <Button onClick={this.rescale}>重新缩放</Button>
+          <TransformSetting label="转换字符:" labelFor="transform-placeholder">
+            <input type="text" id="transform-placeholder" className="transform-placeholder-input" name="transform-placeholder" value={this.state.transformPlaceholder} onChange={this.setTransformPlaceholder} />
+          </TransformSetting>
           <Button onClick={this.transform}>开始转化</Button>
         </Row>
         <Divide/>
@@ -96,6 +110,10 @@ export default class App extends React.Component {
           <ImagePreviewUpload file={this.state.file} image={this.state.rawImage} setImageAndFile={this.setImageAndFile} previewWidth={parseInt(this.state.transformWidth)} ref={this.imagePreview}></ImagePreviewUpload>
         </Row>
         <FramesModal ref={this.framesModal} frames={this.state.transformResult} file={this.state.file} />
+        <p className="helps">转化GIF或较大的图片时，可能会出现一定程度的卡顿，属于正常现象，请耐心等待。</p>
+        <p className="copyright text-center">
+          Author: <a href="https://github.com/kainstar">kainstar</a>, <a href="https://github.com/kainstar/image-to-text">Project Repository</a>
+        </p>
       </div>
     )
   }

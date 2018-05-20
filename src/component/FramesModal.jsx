@@ -34,6 +34,8 @@ export default class FramesModal extends React.PureComponent {
     super(props)
     this.state = {
       open: false,
+      color: '#000000',
+      bgColor: '#ffffff',
       frameIndex: 0
     }
     this.playTimer = null
@@ -64,9 +66,23 @@ export default class FramesModal extends React.PureComponent {
     const createOption = {
       div: this.outputRef.current,
       frames: this.props.frames,
-      file: this.props.file
+      file: this.props.file,
+      color: this.state.color,
+      bgColor: this.state.bgColor
     }
     createImage(createOption)
+  }
+
+  setColor = (ev) => {
+    this.setState({
+      color: ev.target.value
+    })
+  }
+
+  setBgColor = (ev) => {
+    this.setState({
+      bgColor: ev.target.value
+    })
   }
 
   play() {
@@ -125,13 +141,17 @@ export default class FramesModal extends React.PureComponent {
           </div>
           <Divide />
           <div className="output-options">
+            <label htmlFor="color">文字颜色:</label>
+            <input type="color" id="color" name="color" value={this.state.color} onChange={this.setColor} />
+            <label htmlFor="color">背景颜色:</label>
+            <input type="color" id="bgColor" name="bgColor" value={this.state.bgColor} onChange={this.setBgColor} />
             <Button className="save-btn" onClick={this.savePic}>
               保存为图片
             </Button>
           </div>
           <Divide />
           <div className="output-text-wrapper">
-            <div id="output-text-block" className="output-text-block" ref={this.outputRef}>
+            <div id="output-text-block" className="output-text-block" style={{color: this.state.color, backgroundColor: this.state.bgColor}} ref={this.outputRef}>
               {this.props.frames.length
                 ? this.props.frames[this.state.frameIndex].text.map((line, index) => <pre key={index}>{line}</pre>)
                 : null}

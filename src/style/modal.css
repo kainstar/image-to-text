@@ -49,6 +49,12 @@
   color: rgb(0, 0, 0);
 }
 
+.modal-loading {
+  text-align: center;
+  min-height: 250px;
+  line-height: 250px;
+}
+
 .output-options {
   overflow: hidden;
   padding: 10px 20px;
@@ -56,6 +62,11 @@
 
 .output-options > * {
   margin-right: 10px;
+}
+
+.output-options label {
+  font-size: 13px;
+  color: #333;
 }
 
 .play-delay-input {
