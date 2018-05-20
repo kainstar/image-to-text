@@ -279,7 +279,13 @@ export default function gifParser (buffer) {
     width: info.w,
     height: info.h,
     frames: info.frames.map(frame => ({
+      /**
+       * @type {Uint8ClampedArray}
+       */
       data: frame.data,
+      /**
+       * @type {number}
+       */
       delay: frame.extension.delay
     }))
   }

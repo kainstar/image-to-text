@@ -5,7 +5,7 @@ import FramesModal from './component/FramesModal'
 import TransformSetting from './component/TransformSetting'
 import Row from './component/Row'
 import ImagePreviewUpload from './component/ImagePreviewUpload'
-import { transformImageFrame } from './tools/imageToText'
+import { transformImageToText } from './tools/imageToText'
 import { getImageDatas } from './tools/imageParser'
 
 export default class App extends React.Component {
@@ -55,17 +55,20 @@ export default class App extends React.Component {
    * @memberof App
    */
   transform = () => {
+    const file = this.state.file
+    if (!file) {
+      return
+    }
     /**
      * @type {HTMLImageElement}
      */
     const image = this.imagePreview.current.getCurrentImage()
-    const file = this.state.file
-    const imageDatas = getImageDatas(image, file)
-    const frames = imageDatas.map(imageData => {
-      return transformImageFrame(imageData)
+    const framesData = getImageDatas(image, file)
+    framesData.forEach(frameData => {
+      frameData.text = transformImageToText(frameData.data)
     })
     this.setState({
-      transformResult: frames
+      transformResult: framesData
     }, () => {
       this.framesModal.current.open()
     })

@@ -44,7 +44,10 @@ function gif(image) {
   const framesData = []
   for(let i = 0; i < frames.length; i++) {
     const frameData = new ImageData(frames[i].data, rawWidth, rawHeight)
-    framesData.push(zipFrameData(frameData, image))
+    framesData.push({
+      data: zipFrameData(frameData, image),
+      delay: frames[i].delay
+    })
   }
   return framesData
 }
@@ -66,7 +69,7 @@ function noGif(image) {
   // 绘制当前图像到canvas上
   ctx.drawImage(image, 0, 0)
   const imageData = ctx.getImageData(0, 0, image.width, image.height)
-  return [imageData]
+  return [{ data: imageData, delay: null }]
 }
 
 

@@ -5,8 +5,6 @@ import Divide from './Divide'
 import { createImage } from '../tools/imageCreater'
 import '../style/modal.css'
 
-const DEFAULT_PLAY_DELAY = 300
-
 /**
  * 显示图片转字符结果的模态框
  *
@@ -17,10 +15,17 @@ const DEFAULT_PLAY_DELAY = 300
 export default class FramesModal extends React.PureComponent {
 
   /**
+   * @typedef Frame
+   * @prop {ImageData} data
+   * @prop {string[]} text
+   * @prop {number} delay
+   */
+
+  /**
    * Creates an instance of FramesModal.
    *
    * @param {object} props
-   * @param {string[][]} props.frames
+   * @param {Frame[]} props.frames
    * @param {File} props.file
    *
    * @memberof FramesModal
@@ -29,11 +34,9 @@ export default class FramesModal extends React.PureComponent {
     super(props)
     this.state = {
       open: false,
-      frameIndex: 0,
-      playDelay: DEFAULT_PLAY_DELAY
+      frameIndex: 0
     }
     this.playTimer = null
-    this.playDelayInput = React.createRef()
     this.outputRef = React.createRef()
   }
 
@@ -61,31 +64,18 @@ export default class FramesModal extends React.PureComponent {
     const createOption = {
       div: this.outputRef.current,
       frames: this.props.frames,
-      file: this.props.file,
-      delay: this.state.playDelay
+      file: this.props.file
     }
     createImage(createOption)
   }
 
-  updatePlayDelay = () => {
-    const value = this.playDelayInput.current.value
-    // 退格到无数字时，设置为默认间隔
-    let nextNumber = value.length ? parseInt(value, 10) : DEFAULT_PLAY_DELAY
-    // 值为非数字时，直接返回
-    if (isNaN(nextNumber)) {
-      nextNumber = DEFAULT_PLAY_DELAY
-    }
-    this.setState({
-      // 设置为字符串，防止出现0开头数字的不正确显示
-      playDelay: nextNumber
-    })
-  }
-
   play() {
+    // 不播放只有一帧的图片（非gif）
     if (this.props.frames.length <= 1) {
       return
     }
     const nextFrame = () => {
+      const delay = this.props.frames[this.state.frameIndex].delay
       this.playTimer = setTimeout(() => {
         let nextIndex = this.state.frameIndex + 1
         if (nextIndex === this.props.frames.length) {
@@ -93,9 +83,8 @@ export default class FramesModal extends React.PureComponent {
         }
         this.setState({
           frameIndex: nextIndex
-        })
-        nextFrame()
-      }, this.state.playDelay)
+        }, nextFrame)
+      }, delay)
     }
     nextFrame()
   }
@@ -136,18 +125,6 @@ export default class FramesModal extends React.PureComponent {
           </div>
           <Divide />
           <div className="output-options">
-            {this.props.file && this.props.file.type === 'image/gif' ?
-              <span>
-                <input
-                  defaultValue={DEFAULT_PLAY_DELAY}
-                  className="play-delay-input"
-                  ref={this.playDelayInput}
-                  placeholder="播放帧间隔(ms)" />
-                <Button className="update-btn" onClick={this.updatePlayDelay}>
-                  更新间隔时间(ms)
-                </Button>
-              </span>: null
-            }
             <Button className="save-btn" onClick={this.savePic}>
               保存为图片
             </Button>
@@ -156,7 +133,7 @@ export default class FramesModal extends React.PureComponent {
           <div className="output-text-wrapper">
             <div id="output-text-block" className="output-text-block" ref={this.outputRef}>
               {this.props.frames.length
-                ? this.props.frames[this.state.frameIndex].map((line, index) => <pre key={index}>{line}</pre>)
+                ? this.props.frames[this.state.frameIndex].text.map((line, index) => <pre key={index}>{line}</pre>)
                 : null}
             </div>
           </div>

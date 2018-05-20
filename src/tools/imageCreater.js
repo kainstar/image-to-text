@@ -1,10 +1,9 @@
 import GIF from 'gif.js'
 import { getImageType } from './imageCommon'
+import { FONT_HEIGHT, FONT_WIDTH } from './constant'
 
-const TEXT_LINE_HEIGHT = 12
-const TEXT_WIDTH = 6
 // pre标签下的字体
-const TEXT_FONT = 'normal normal 400 normal 12px / 12px monospace, monospace'
+const TEXT_FONT = `normal normal 400 normal ${FONT_HEIGHT}px / ${FONT_HEIGHT}px monospace, monospace`
 const COLOR = {
   BLACK: 'rgba(0,0,0,1)',
   WHITE: 'rgba(255,255,255,1)'
@@ -21,7 +20,7 @@ function getFrameCanvas(div, frame, props) {
   ctx.font = props.font
   for (let i = 0; i < frame.length; i++) {
     for (let j = 0; j < frame[i].length; j++) {
-      ctx.fillText(frame[i][j], j * TEXT_WIDTH, i * TEXT_LINE_HEIGHT)
+      ctx.fillText(frame[i][j], j * FONT_WIDTH, i * FONT_HEIGHT)
     }
   }
   return canvas
@@ -30,14 +29,13 @@ function getFrameCanvas(div, frame, props) {
 const DEFAULT_GIF_PROPS = {
   bgColor: COLOR.WHITE,
   color: COLOR.BLACK,
-  font: TEXT_FONT,
-  delay: 300
+  font: TEXT_FONT
 }
 /**
  * 创建gif图片
  *
  * @param {HTMLDivElement} div
- * @param {string[][]} frames
+ * @param {object} frames
  * @param {object} props
  * @returns
  */
@@ -55,13 +53,12 @@ function gif(div, frames, props, cb) {
     cb(blob)
   })
   for (let i = 0; i < frames.length; i++) {
-    const canvas = getFrameCanvas(div, frames[i], props)
+    const canvas = getFrameCanvas(div, frames[i].text, props)
     gif.addFrame(canvas, {
-      delay: props.delay
+      delay: frames[i].delay
     })
   }
   gif.render()
-  console.log(gif)
 }
 
 const DEFAULT_NOGIF_PROPS = {
@@ -73,13 +70,13 @@ const DEFAULT_NOGIF_PROPS = {
  * 创建非gif图片(jpg)
  *
  * @param {HTMLDivElement} div
- * @param {string[]} frame
+ * @param {object} frame
  * @param {object} props
  * @returns
  */
 function noGif(div, frame, props) {
   props = Object.assign({}, DEFAULT_NOGIF_PROPS, props)
-  const canvas = getFrameCanvas(div, frame, props)
+  const canvas = getFrameCanvas(div, frame.text, props)
   return canvas.toDataURL('image/png')
 }
 
@@ -89,7 +86,7 @@ function noGif(div, frame, props) {
  * @export
  * @param {object} option
  * @param {HTMLDivElement} option.div
- * @param {string[][]} option.frames
+ * @param {object} option.frames
  * @param {File} option.file
  */
 export function createImage(option) {
@@ -105,7 +102,6 @@ export function createImage(option) {
   if (type === 'GIF') {
     gif(div, frames, props, function (blob) {
       const url = URL.createObjectURL(blob)
-      console.log(url)
       link.href = url
       link.click()
       URL.revokeObjectURL(url)
