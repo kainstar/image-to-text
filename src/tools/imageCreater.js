@@ -81,7 +81,7 @@ function noGif(div, frame, props) {
 }
 
 /**
- * 创建新的图片
+ * 创建并下载新的图片
  *
  * @export
  * @param {object} option

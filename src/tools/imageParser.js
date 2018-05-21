@@ -8,7 +8,7 @@ import { getImageType } from './imageCommon'
  * @param {ImageData} frameData
  * @param {HTMLImageElement} image
  */
-function zipFrameData(frameData, image) {
+function scaleFrameData(frameData, image) {
   // 方法来源：
   // https://stackoverflow.com/questions/3448347/how-to-scale-an-imagedata-in-html-canvas
 
@@ -45,7 +45,7 @@ function gif(image) {
   for(let i = 0; i < frames.length; i++) {
     const frameData = new ImageData(frames[i].data, rawWidth, rawHeight)
     framesData.push({
-      data: zipFrameData(frameData, image),
+      data: scaleFrameData(frameData, image),
       delay: frames[i].delay
     })
   }

@@ -79,7 +79,7 @@ export default class App extends React.Component {
     const image = this.imagePreview.current.getCurrentImage()
     const framesData = getImageDatas(image, file)
     framesData.forEach(frameData => {
-      frameData.text = transformImageToText(frameData.data, createGrayToTextFunc(this.state.transformPlaceholder))
+      frameData.text = transformImageToText(frameData.data, createGrayToTextFunc(this.state.transformPlaceholder || DEFAULT_AVAILABLE_TEXTS))
     })
     this.setState({
       transformResult: framesData
