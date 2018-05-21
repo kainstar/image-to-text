@@ -3,6 +3,8 @@ body {
   padding: 0;
   overflow: auto;
   min-height: 100vh;
+  background-color: rgb(255, 253, 239);
+  color: #333;
 }
 
 ::-webkit-scrollbar {
@@ -49,21 +51,20 @@ body {
   padding: 5px 15px;
   color: #333;
   border: 1px solid #333;
-  background: #fff;
-  transition: all 0.1s ease 0s;
+  background-color: transparent;
+  transition: all 0.05s ease 0s;
 }
 
 .btn:hover {
-  color: #333;
   border: 1px solid #000;
-  background: #fff;
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
 }
 
 .btn:active {
+  background-color: rgb(255, 200, 100);
+  border: 1px solid #fff;
+  box-shadow: 0px 0px 5px rgb(255, 255, 255);
   color: #fff;
-  background: #000;
-  border: 1px solid #000;
 }
 
 .divide {
@@ -96,10 +97,17 @@ body {
   .transform-settings-wrapper > * {
     margin: 0.5rem 0;
   }
+  .transform-settings-wrapper .btn {
+    padding: 7px 15px;
+  }
+  header h1 {
+    font-size: 20px;
+  }
 }
 
 @media screen and (max-width: 540px) {
   .helps {
+    margin: 0 10px;
     text-align: left;
   }
 }

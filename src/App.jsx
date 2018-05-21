@@ -54,6 +54,9 @@ export default class App extends React.Component {
   }
 
   rescale = () => {
+    if (!this.state.file) {
+      return
+    }
     this.imagePreview.current.scaleImageContainer()
   }
 
@@ -91,6 +94,7 @@ export default class App extends React.Component {
         <header className="clear">
           <h1 className="text-center">图片转字符画工具</h1>
         </header>
+        {/* github fork me ribbons */}
         <a target="_blank" rel="noopener noreferrer" href="https://github.com/kainstar/image-to-text">
           <img style={{position: 'absolute', top: 0, right: 0, border: 0}} src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png" alt="Fork me on GitHub"/>
         </a>
@@ -112,7 +116,7 @@ export default class App extends React.Component {
         <FramesModal ref={this.framesModal} frames={this.state.transformResult} file={this.state.file} />
         <p className="helps">转化GIF或较大的图片时，可能会出现一定程度的卡顿，属于正常现象，请耐心等待。</p>
         <p className="copyright text-center">
-          Author: <a href="https://github.com/kainstar">kainstar</a>, <a href="https://github.com/kainstar/image-to-text">Project Repository</a>
+          <a href="https://github.com/kainstar">Author: kainstar</a>, <a href="https://github.com/kainstar/image-to-text">Project Repository</a>
         </p>
       </div>
     )

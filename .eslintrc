@@ -18,6 +18,7 @@
     }],
     "arrow-parens": 0,
     "no-console": 0,
+    "react/prop-types": 0,
     "no-var": "error",
     "no-constant-condition": "off",
     "no-case-declarations": "off"

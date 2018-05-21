@@ -28,6 +28,12 @@
   color: rgba(127, 150, 255, 1);
 }
 
+@media screen and (max-width: 440px) {
+  .upload-image-block {
+    margin: 40px 20px 20px;
+  }
+}
+
 .file-upload-input {
   display: none;
 }
