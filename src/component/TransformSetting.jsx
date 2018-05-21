@@ -1,12 +1,7 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import '../style/transformSetting.css'
 
 export default class TransformSetting extends React.PureComponent {
-  static propTypes = {
-    label: PropTypes.string,
-    labelFor: PropTypes.string
-  }
 
   static defaultProps = {
     label: '',
