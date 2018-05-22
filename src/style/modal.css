@@ -90,6 +90,8 @@
 .output-text-block {
   max-height: calc(100vh - 200px);
   max-width: 90vw;
+  width: max-content;
+  margin: 0 auto;
   font-size: 12px;
   line-height: 12px;
   border: 1px solid #333;
