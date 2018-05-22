@@ -1,5 +1,5 @@
 /**
- * datauri 转 ArrayBuffer
+ * datauri 转 Uint8Array
  * https://stackoverflow.com/questions/4998908/convert-data-uri-to-file-then-append-to-formdata
  *
  * @export

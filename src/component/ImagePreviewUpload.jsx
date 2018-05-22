@@ -38,15 +38,14 @@ export default class ImagePreviewUpload extends React.Component {
     this.componentRef = React.createRef()
   }
 
+  /**
+   * 返回当前显示图像的引用（有宽高变化）
+   *
+   * @returns
+   * @memberof ImagePreviewUpload
+   */
   getCurrentImage() {
     return this.currentImageRef.current
-  }
-
-  size = () => {
-    return {
-      width: this.state.width,
-      height: this.state.height
-    }
   }
 
   dragEnter = ev => {

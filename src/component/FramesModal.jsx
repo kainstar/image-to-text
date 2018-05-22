@@ -85,6 +85,11 @@ export default class FramesModal extends React.PureComponent {
     })
   }
 
+  /**
+   * 播放gif图像
+   *
+   * @memberof FramesModal
+   */
   play() {
     // 不播放只有一帧的图片（非gif）
     if (this.props.frames.length <= 1) {
@@ -105,6 +110,11 @@ export default class FramesModal extends React.PureComponent {
     nextFrame()
   }
 
+  /**
+   * 停止播放gif图像
+   *
+   * @memberof FramesModal
+   */
   stop() {
     if (this.playTimer) {
       clearTimeout(this.playTimer)

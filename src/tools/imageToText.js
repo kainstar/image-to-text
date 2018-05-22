@@ -1,7 +1,7 @@
 import { FONT_HEIGHT, FONT_WIDTH, DEFAULT_AVAILABLE_TEXTS } from './constant'
 
 /**
- * 获取rbg颜色的灰度
+ * 获取rgb颜色的灰度
  *
  * @param {number} r
  * @param {number} g

@@ -9,6 +9,21 @@ const COLOR = {
   WHITE: 'rgba(255,255,255,1)'
 }
 
+/**
+ * @typedef Frame
+ * @prop {ImageData} data
+ * @prop {string[]} text
+ * @prop {number} delay
+ */
+
+/**
+ * 获取渲染了单帧图片的 canvas 对象
+ *
+ * @param {HTMLDivElement} div
+ * @param {Frame} frame
+ * @param {object} props
+ * @returns
+ */
 function getFrameCanvas(div, frame, props) {
   const canvas = document.createElement('canvas')
   canvas.width = div.scrollWidth
@@ -35,7 +50,7 @@ const DEFAULT_GIF_PROPS = {
  * 创建gif图片
  *
  * @param {HTMLDivElement} div
- * @param {object} frames
+ * @param {Frame[]} frames
  * @param {object} props
  * @returns
  */
@@ -47,9 +62,10 @@ function gif(div, frames, props, cb) {
     quality: 10,
     workers: 2,
     workerScript: './js/gif.worker.js',
-    width, height
+    width,
+    height
   })
-  gif.on('finished', function (blob) {
+  gif.on('finished', function(blob) {
     cb(blob)
   })
   for (let i = 0; i < frames.length; i++) {
@@ -70,7 +86,7 @@ const DEFAULT_NOGIF_PROPS = {
  * 创建非gif图片(jpg)
  *
  * @param {HTMLDivElement} div
- * @param {object} frame
+ * @param {Frame} frame
  * @param {object} props
  * @returns
  */
@@ -86,7 +102,7 @@ function noGif(div, frame, props) {
  * @export
  * @param {object} option
  * @param {HTMLDivElement} option.div
- * @param {object} option.frames
+ * @param {Frame[]} option.frames
  * @param {File} option.file
  */
 export function createImage(option) {
@@ -100,7 +116,7 @@ export function createImage(option) {
   link.download = filename
 
   if (type === 'GIF') {
-    gif(div, frames, props, function (blob) {
+    gif(div, frames, props, function(blob) {
       const url = URL.createObjectURL(blob)
       link.href = url
       link.click()
