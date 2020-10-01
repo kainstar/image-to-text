@@ -1,3 +1,6 @@
+if you write this also in english then it's really helpful for me.
+
+
 # image-to-text
 
 一个纯前端的图片转字符画工具
