@@ -1,4 +1,4 @@
-# image-to-text
+# Image_to_Text
 
 一个纯前端的图片转字符画工具
 
